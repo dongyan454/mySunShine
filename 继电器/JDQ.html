@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+<body>
+  <div id="timer"> 
+    <div class="t_title">时间继电器</div>
+    <div class="t_data">
+      <span>T2</span>     <span class="T2_data">{{T2}}</span> <span class="T2_data">{{T1}}</span>   <span>T1</span>
+    </div>
+    <div class="t_body">
+      <div class="t_body_down">
+        <button @click='leftPrepShi'>-</button>
+        <button @click='leftPrepMiao'>-</button>
+        <button>-</button>
+        <button @click='rightPrepShi'>-</button>
+        <button @click='rightPrepMiao'>-</button>
+        <button>-</button>
+      </div>
+      <div class="t_body_data">
+        <span>{{leftDecade}}</span>
+        <span>{{leftUnit}}</span>
+        <span>S</span>
+        <span>{{rightDecade}}</span>
+        <span>{{rightUnit}}</span>
+        <span>S</span>
+      </div>
+      <div class="t_body_up">
+        <button @click='leftAddShi'>+</button>
+        <button @click='lefttAddMiao'>+</button>
+        <button>+</button>
+        <button @click='rightAddShi'>+</button>
+        <button @click='rightAddMiao'>+</button>
+        <button>+</button>
+      </div>
+      <button class="swatch" @click='swatch'>开始</button>
+    </div>
+  </div>
+
+  </div>
+  <script>
+    new Vue({
+          el:"#timer",
+          data:{      
+              T2:0,
+              T1:0,
+              leftDecade:0,
+              leftUnit:0,
+              rightDecade:0,
+              rightUnit:0,  
+              falg:false   
+          },
+          methods: {
+            leftPrepShi(){
+              if(this.leftDecade > 0){
+                    this.leftDecade--
+                }else{
+                    alert('大于0')
+                }
+            },
+            leftPrepMiao(){
+              if(this.leftUnit > 0){
+                    this.leftUnit--
+                }else{
+                    alert('大于0')
+                }
+            },
+            rightPrepShi(){
+              if(this.rightDecade > 0){
+                    this.rightDecade--
+                }else{
+                    alert('大于0')
+                }
+            },
+            rightPrepMiao(){
+              if(this.rightUnit > 0){
+                    this.rightUnit--
+                }else{
+                    alert('大于0')
+                }
+            },
+            leftAddShi(){
+              if(this.leftDecade < 9){
+                this.leftDecade++    
+              }else{
+                this.leftDecade = 0
+              }                 
+            },
+            lefttAddMiao(){
+              if(this.leftUnit < 9){
+                this.leftUnit++    
+              }else{
+                this.leftUnit = 0
+              }  
+            },
+            rightAddShi(){
+              if(this.rightDecade < 9){
+                this.rightDecade++    
+              }else{
+                this.rightDecade = 0
+              } 
+            },
+            rightAddMiao(){
+              if(this.rightUnit < 9){
+                this.rightUnit++    
+              }else{
+                this.rightUnit = 0
+              } 
+            },
+            swatch(){
+             var t1All = this.rightDecade * 10 + this.rightUnit 
+             var t2All = this.leftDecade * 10 + this.leftUnit 
+             if(t1All == 0 && t2All == 0){
+               alert('请输入时间')
+             }else{
+              var stopTimeT1 = setInterval(() => {
+               this.T1++
+               if(this.T1 == t1All){
+                clearInterval(stopTimeT1)
+                this.T1 = 0 
+                 var stopTimeT2 = setInterval(() => {
+                  this.T2++
+                  if(this.T2 == t2All){
+                    clearInterval(stopTimeT2)
+                    this.T2 = 0
+                    this.swatch();
+                  }
+                 },1000)
+               }
+             }, 1000);
+             }    
+            },
+          }     
+        })
+  </script>
+  <style  scoped>
+    #timer {
+      width: 200px;
+      height: 180px;
+      text-align: center;
+      color: #fff;
+      background-color: #000;
+    }
+    .t_title{
+
+    }
+    .t_data .T2_data{
+      font-size: 30px;
+      width: 100px;
+      background-color: pink;
+    }
+    .t_body{
+      margin-top: 5px;
+    }
+    .t_body_down{
+      width: 200px;
+      height: 23px;
+      background-color: rgb(93, 96, 90);
+      display: flex;
+      justify-content: space-around;
+    }
+    .t_body_down button{
+      line-height: 11px;
+      text-align: center;
+      padding-left:2px;
+      margin-top: 10px;
+      width: 15px;
+      height: 15px;
+      color: black;
+      background-color: rgb(169, 186, 203);
+    }
+    .t_body_data{
+      width: 200px;
+      height: 23px;
+      background-color: rgb(93, 96, 90);
+      display: flex;
+      justify-content: space-around;
+    }
+    .t_body_data span{
+      line-height: 15px;
+      margin-top: 10px;
+      width: 15px;
+      height: 15px;
+      color: white;
+      background-color: black;
+    }
+    .t_body_up{
+      width: 200px;
+      height: 32px;
+      background-color: rgb(93, 96, 90);
+      display: flex;
+      justify-content: space-around;
+    }
+    .t_body_up button{
+      line-height: 11px;
+      text-align: center;
+      margin-top: 10px;
+      padding-left:2px;
+      width: 15px;
+      height: 15px;
+      color: black;
+      background-color: rgb(169, 186, 203);
+    }
+    .swatch{
+      margin-top: 5px;
+      color: #fff;
+      background-color: rgb(93, 96, 90);
+    }
+  
+    
+  </style>
+</body>
+</html>
